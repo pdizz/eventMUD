@@ -17,16 +17,21 @@ function CharacterCreation(player) {
     character.name = '';
 
     var askName = function (callback) {
+        var valid = false;
+
         async.until(
-            function () { return validName.test(character.name); },
+            function () { return valid; },
             function (callback) {
                 player.socket.emit('message', 'What is your name?');
+
                 player.socket.once('message', function (data) {
                     if (validName.test(data)) {
                         character.name = data;
+                        valid = true;
                     } else {
                         player.socket.emit('message', data + ' is not a valid name!');
                     }
+
                     callback();
                 });
             },
@@ -37,16 +42,21 @@ function CharacterCreation(player) {
     };
 
     var askRace = function (callback) {
+        var valid = false;
+
         async.until(
-            function () { return validRaces.indexOf(character.race) > -1; },
+            function () { return valid; },
             function (callback) {
                 player.socket.emit('message', 'What is your race? (' + validRaces.join(', ') + ')');
+
                 player.socket.once('message', function (data) {
                     if (validRaces.indexOf(data) > -1) {
                         character.race = data;
+                        valid = true;
                     } else {
                         player.socket.emit('message', data + ' is not a valid race!');
                     }
+
                     callback();
                 });
             },

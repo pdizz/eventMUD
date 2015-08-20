@@ -10,26 +10,36 @@
         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages li { padding: 5px 10px; }
-        #messages li:nth-child(odd) { background: #eee; }
     </style>
 </head>
 <body>
 <ul id="messages"></ul>
 <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
+    <input id="command" autocomplete="off" /><button>Send</button>
 </form>
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     var socket = io();
+    var messages = $('#messages');
+    var command  = $('#command');
+
+    socket.on('connect', function () {
+        messages.append($('<li>').text('Connected'));
+    });
+
+    socket.on('disconnect', function () {
+        messages.append($('<li>').text('Disconnected!'));
+    });
+
     $('form').submit(function(){
-        socket.emit('message', $('#m').val());
-        $('#m').val('');
+        socket.emit('message', command.val());
+        command.val('');
         return false;
     });
     socket.on('message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+        messages.append($('<li>').text(msg));
     });
 </script>
 </body>
