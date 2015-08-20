@@ -1,4 +1,5 @@
 var Player = require(__dirname + '/Player.js');
+var CharacterCreation = require(__dirname + '/Dialog/CharacterCreation.js');
 
 function Game(io, http) {
     var me = this;
@@ -13,6 +14,9 @@ function Game(io, http) {
 
         var player = new Player(socket);
         me.players.push(player);
+
+        var charCreation = new CharacterCreation(player);
+        charCreation.create();
 
         socket.on('disconnect', function(){
             me.players.splice(me.players.indexOf(player));
