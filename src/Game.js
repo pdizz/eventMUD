@@ -1,7 +1,7 @@
 var Player = require(__dirname + '/Player.js');
 var CharacterCreation = require(__dirname + '/Dialog/CharacterCreation.js');
 
-function Game(io, http) {
+function Game(io, http, dice) {
     var me = this;
 
     this.io         = io;
