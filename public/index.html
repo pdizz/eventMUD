@@ -33,6 +33,12 @@
             var messages = this.state.messages;
             messages.push(message);
             this.setState({messages: messages});
+
+            // Keep scroll at bottom of element if focused on input
+            var input = document.getElementById('command-input');
+            if (document.activeElement == input) {
+                input.scrollIntoView();
+            }
         },
 
         onKey: function (e) {
@@ -43,9 +49,6 @@
             e.preventDefault();
             this.socket.emit('message', this.state.command);
             this.setState({ command: '' });
-
-            // Keep scroll at bottom of element
-            document.getElementById('command-input').scrollIntoView();
         },
 
         render: function () {
