@@ -56,7 +56,7 @@
                     {this.state.messages.map(getLine)}
                     <li>
                         <form id="command-bar" onSubmit={this.onSubmit}>
-                            <label for="command-input">$</label>
+                            <label htmlFor="command-input">&gt;</label>
                             <input id="command-input" type="text" value={this.state.command} onChange={this.onKey} />
                         </form>
                     </li>
