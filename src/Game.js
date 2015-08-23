@@ -6,6 +6,7 @@ function Game(io, http, dice) {
 
     this.io         = io;
     this.http       = http;
+    this.dice       = dice;
     this.players    = [];
     this.characters = [];
 
@@ -15,7 +16,7 @@ function Game(io, http, dice) {
         var player = new Player(socket);
         me.players.push(player);
 
-        var charCreation = new CharacterCreation(player);
+        var charCreation = new CharacterCreation(player, dice);
         charCreation.create();
 
         socket.on('disconnect', function(){
