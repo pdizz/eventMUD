@@ -1,6 +1,7 @@
 var async = require('async');
 var Character = require(__dirname + '/../Character.js');
 var GamePlay = require(__dirname + '/GamePlay.js');
+var Room = require(__dirname + '/../Room.js');
 
 function CreateCharacter(player, game) {
     var me = this;
@@ -132,6 +133,9 @@ function CreateCharacter(player, game) {
     };
 
     this.exit = function () {
+        // TODO zone with starting room, not hard coded
+        player.moveTo(new Room('default', 'It is a dark room with things and stuff.'));
+
         // Transition back to game
         player.state = new GamePlay(player, game).init();
     };

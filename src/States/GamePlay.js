@@ -14,8 +14,14 @@ function GamePlay(player, game) {
         switch (words[0].toLowerCase()) {
             case 'say':
                 var message = words.slice(1).join(' ');
-                player.socket.to(player.room).emit('message', player.socket.id + ' says "' + message + '"');
+                player.socket.to(player.room.id).emit('message', player.character.name + ' says "' + message + '"');
                 player.socket.emit('message', 'You say "' + message + '"');
+                break;
+
+            case 'look':
+                player.socket.to(player.room.id).emit('message', player.character.name + ' appears to be looking for something.');
+                player.socket.emit('message', 'You look around.');
+                player.socket.emit('message', player.room.description);
                 break;
 
             default:
