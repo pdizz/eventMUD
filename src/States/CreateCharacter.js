@@ -113,7 +113,7 @@ function CreateCharacter(player, game) {
             );
         };
 
-        var character  = new Character();
+        var character  = new Character(game.uuid.v4(), game.events);
         character.name = '';
 
         async.series(
@@ -123,7 +123,10 @@ function CreateCharacter(player, game) {
                 rollStats
             ],
             function (error, results) {
-                player.character = character;
+                player.setCharacter(character);
+
+                // TODO zone with starting room, not hard coded
+                player.character.moveTo(new Room('default', 'It is a dark room with things and stuff.'));
                 player.socket.emit('message', 'Welcome, ' + character.race + ' ' + character.name + '!');
 
                 // Transition state
@@ -133,9 +136,6 @@ function CreateCharacter(player, game) {
     };
 
     this.exit = function () {
-        // TODO zone with starting room, not hard coded
-        player.moveTo(new Room('default', 'It is a dark room with things and stuff.'));
-
         // Transition back to game
         player.state = new GamePlay(player, game).init();
     };

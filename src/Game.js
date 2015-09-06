@@ -3,11 +3,13 @@ var Character = require(__dirname + '/Character.js');
 var GamePlay = require(__dirname + '/States/GamePlay.js');
 var CreateCharacter = require(__dirname + '/States/CreateCharacter.js');
 
-function Game(io, http, dice) {
+function Game(io, http, events, uuid, dice) {
     var me = this;
 
     this.io         = io;
     this.http       = http;
+    this.events     = events;
+    this.uuid       = uuid;
     this.dice       = dice;
     this.players    = [];
     this.characters = [];
@@ -15,7 +17,7 @@ function Game(io, http, dice) {
     this.io.on('connection', function(socket){
         console.log(socket.id + ' connected');
 
-        var player = new Player(socket);
+        var player = new Player(socket, events);
         me.players.push(player);
 
         socket.on('disconnect', function(){

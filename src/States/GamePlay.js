@@ -9,19 +9,22 @@ function GamePlay(player, game) {
     };
 
     var parseCommand = function (command) {
-        var words = command.split(' ');
-
-        switch (words[0].toLowerCase()) {
+        var words  = command.split(' ');
+        var key    = words[0].toLowerCase();
+        switch (key) {
             case 'say':
+            case 'speak':
                 var message = words.slice(1).join(' ');
-                player.socket.to(player.room.id).emit('message', player.character.name + ' says "' + message + '"');
+                var action = {name: 'say', actor: player.character, message: message};
+                player.character.emitToRoom(action);
                 player.socket.emit('message', 'You say "' + message + '"');
                 break;
 
             case 'look':
-                player.socket.to(player.room.id).emit('message', player.character.name + ' appears to be looking for something.');
+                var action = {name: 'look', actor: player.character};
+                player.character.emitToRoom(action);
                 player.socket.emit('message', 'You look around.');
-                player.socket.emit('message', player.room.description);
+                player.socket.emit('message', player.character.room.description);
                 break;
 
             default:

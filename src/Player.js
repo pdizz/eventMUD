@@ -1,19 +1,19 @@
-function Player(socket) {
+function Player(socket, events) {
+    var me = this;
+
     this.socket    = socket;
+    this.events    = events;
     this.state     = null;
     this.character = null;
-    this.room      = null;
+
+    this.setCharacter = function (character) {
+        this.character = character;
+
+        // Listen to character events
+        this.events.on(this.character.id, function (message) {
+            me.socket.emit('message', message);
+        });
+    };
 }
-
-Player.prototype.moveTo = function (room) {
-    // Leave current room
-    if (this.room) {
-        this.socket.leave(this.room.id);
-    }
-
-    // Join new room
-    this.socket.join(room.id);
-    this.room = room;
-};
 
 module.exports = Player;
