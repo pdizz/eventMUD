@@ -8,6 +8,7 @@
     "events": "~1.0.0",
     "async": "~1.4.2",
     "roll": "~1.1.0",
-    "uuid": "~2.0.1"
+    "uuid": "~2.0.1",
+    "javascript-state-machine": "~2.3.5"
   }
 }
